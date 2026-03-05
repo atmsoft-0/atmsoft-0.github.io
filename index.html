@@ -23,964 +23,190 @@
             --accent-dim: rgba(200,214,240,0.12);
             --accent-glow: rgba(200,214,240,0.06);
             --white: #ffffff;
+            --success: #4ade80;
+            --error: #f87171;
         }
-
-        *, *::before, *::after {
-            margin: 0; padding: 0;
-            box-sizing: border-box;
-        }
-
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--black);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            cursor: none;
-        }
-
-        /* CUSTOM CURSOR */
-        .cursor {
-            position: fixed;
-            width: 10px; height: 10px;
-            background: var(--accent);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
-            mix-blend-mode: difference;
-        }
-        .cursor-ring {
-            position: fixed;
-            width: 36px; height: 36px;
-            border: 1px solid rgba(200,214,240,0.4);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: transform 0.18s ease, width 0.3s, height 0.3s;
-        }
+        body { font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--text-primary); overflow-x: hidden; cursor: none; }
+        .cursor { position: fixed; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.1s, width 0.3s, height 0.3s; mix-blend-mode: difference; }
+        .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(200,214,240,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: transform 0.18s ease, width 0.3s, height 0.3s; }
         .cursor.hovered { width: 16px; height: 16px; }
         .cursor-ring.hovered { width: 56px; height: 56px; border-color: rgba(200,214,240,0.2); }
+        body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; pointer-events: none; z-index: 1; }
 
-        /* NOISE TEXTURE OVERLAY */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-            opacity: 0.4;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* NAV */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            padding: 24px 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: linear-gradient(to bottom, rgba(5,6,8,0.9) 0%, transparent 100%);
-            backdrop-filter: blur(0px);
-            animation: navIn 0.8s ease forwards;
-        }
-
-        @keyframes navIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .nav-logo {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1.4rem;
-            letter-spacing: 0.12em;
-            color: var(--text-primary);
-            text-decoration: none;
-            position: relative;
-        }
-        .nav-logo span {
-            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 36px;
-            list-style: none;
-        }
-        .nav-links a {
-            font-size: 0.82rem;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(to bottom, rgba(5,6,8,0.9) 0%, transparent 100%); animation: navIn 0.8s ease forwards; }
+        @keyframes navIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: 0.12em; color: var(--text-primary); text-decoration: none; }
+        .nav-logo span { background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+        .nav-links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: var(--text-primary); }
+        .nav-cta { padding: 10px 22px; border: 1px solid var(--border-bright); border-radius: 6px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-primary) !important; background: var(--surface-2); transition: all 0.3s !important; }
+        .nav-cta:hover { background: var(--accent-dim) !important; border-color: var(--accent) !important; color: var(--accent) !important; }
+        .nav-user { display: none; align-items: center; gap: 10px; padding: 8px 16px; background: var(--surface-2); border: 1px solid var(--border-bright); border-radius: 100px; font-size: 0.8rem; color: var(--text-secondary); }
+        .nav-user.show { display: flex; }
+        .nav-user-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--accent-dim); border: 1px solid var(--border-bright); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; color: var(--accent); }
+        .nav-signout { font-size: 0.75rem; color: var(--text-muted); cursor: none; border: none; background: none; padding: 0; transition: color 0.2s; }
+        .nav-signout:hover { color: var(--error); }
 
-        .nav-cta {
-            padding: 10px 22px;
-            border: 1px solid var(--border-bright);
-            border-radius: 6px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--text-primary) !important;
-            background: var(--surface-2);
-            transition: all 0.3s !important;
-        }
-        .nav-cta:hover {
-            background: var(--accent-dim) !important;
-            border-color: var(--accent) !important;
-            color: var(--accent) !important;
-        }
+        .hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+        .hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 100%); }
+        .orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(120px); opacity: 0.18; animation: orbFloat 12s ease-in-out infinite; }
+        .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, #8aa4d4 0%, transparent 70%); top: -100px; left: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, #4a6fa8 0%, transparent 70%); bottom: 0; right: 200px; opacity: 0.12; animation-delay: -4s; }
+        .orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, #c8d6f0 0%, transparent 70%); top: 40%; left: 40%; opacity: 0.08; animation-delay: -8s; }
+        @keyframes orbFloat { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-20px) scale(1.05); } 66% { transform: translate(-20px,30px) scale(0.97); } }
 
-        /* ═══════════════════════════════════ HERO SECTION */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            overflow: hidden;
-        }
-
-        /* GRID BACKGROUND */
-        .hero::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 60px 60px;
-            pointer-events: none;
-            mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 100%);
-        }
-
-        /* ORB GLOWS */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            filter: blur(120px);
-            opacity: 0.18;
-            animation: orbFloat 12s ease-in-out infinite;
-        }
-        .orb-1 {
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, #8aa4d4 0%, transparent 70%);
-            top: -100px; left: -100px;
-            animation-delay: 0s;
-        }
-        .orb-2 {
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, #4a6fa8 0%, transparent 70%);
-            bottom: 0; right: 200px;
-            opacity: 0.12;
-            animation-delay: -4s;
-        }
-        .orb-3 {
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, #c8d6f0 0%, transparent 70%);
-            top: 40%; left: 40%;
-            opacity: 0.08;
-            animation-delay: -8s;
-        }
-
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -20px) scale(1.05); }
-            66% { transform: translate(-20px, 30px) scale(0.97); }
-        }
-
-        /* HERO LEFT — LANDING CONTENT */
-        .hero-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 120px 72px 80px 80px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border: 1px solid var(--border-bright);
-            border-radius: 100px;
-            background: var(--surface-2);
-            font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin-bottom: 36px;
-            width: fit-content;
-            opacity: 0;
-            animation: fadeSlideUp 0.7s ease forwards 0.3s;
-        }
-        .badge-dot {
-            width: 6px; height: 6px;
-            background: #4ade80;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #4ade80;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-        }
-
-        .hero-title {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: clamp(2.8rem, 4.5vw, 5rem);
-            line-height: 1.04;
-            letter-spacing: -0.03em;
-            color: var(--text-primary);
-            margin-bottom: 28px;
-            opacity: 0;
-            animation: fadeSlideUp 0.8s ease forwards 0.5s;
-        }
-        .hero-title .line-accent {
-            background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, #6b8cbf 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-title .line-dim {
-            color: var(--text-muted);
-            -webkit-text-fill-color: var(--text-muted);
-        }
-
-        .hero-sub {
-            font-size: 1.05rem;
-            font-weight: 300;
-            line-height: 1.7;
-            color: var(--text-secondary);
-            max-width: 420px;
-            margin-bottom: 52px;
-            opacity: 0;
-            animation: fadeSlideUp 0.8s ease forwards 0.7s;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-            opacity: 0;
-            animation: fadeSlideUp 0.8s ease forwards 0.9s;
-        }
-
-        .btn-primary {
-            padding: 15px 32px;
-            background: var(--text-primary);
-            color: var(--black);
-            border: none;
-            border-radius: 8px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.88rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            cursor: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 40px rgba(200,214,240,0.15);
-        }
-        .btn-primary:hover {
-            background: var(--white);
-            box-shadow: 0 0 60px rgba(200,214,240,0.3);
-            transform: translateY(-2px);
-        }
-
-        .btn-ghost {
-            padding: 15px 28px;
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.88rem;
-            font-weight: 500;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            cursor: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-ghost:hover {
-            color: var(--text-primary);
-            border-color: var(--border-bright);
-        }
+        .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 120px 72px 80px 80px; position: relative; z-index: 2; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid var(--border-bright); border-radius: 100px; background: var(--surface-2); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 36px; width: fit-content; opacity: 0; animation: fadeSlideUp 0.7s ease forwards 0.3s; }
+        .badge-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px #4ade80; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+        .hero-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2.8rem, 4.5vw, 5rem); line-height: 1.04; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 28px; opacity: 0; animation: fadeSlideUp 0.8s ease forwards 0.5s; }
+        .hero-title .line-accent { background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, #6b8cbf 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-title .line-dim { color: var(--text-muted); -webkit-text-fill-color: var(--text-muted); }
+        .hero-sub { font-size: 1.05rem; font-weight: 300; line-height: 1.7; color: var(--text-secondary); max-width: 420px; margin-bottom: 52px; opacity: 0; animation: fadeSlideUp 0.8s ease forwards 0.7s; }
+        .hero-actions { display: flex; gap: 14px; align-items: center; opacity: 0; animation: fadeSlideUp 0.8s ease forwards 0.9s; }
+        .btn-primary { padding: 15px 32px; background: var(--text-primary); color: var(--black); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: none; transition: all 0.3s ease; box-shadow: 0 0 40px rgba(200,214,240,0.15); }
+        .btn-primary:hover { background: var(--white); box-shadow: 0 0 60px rgba(200,214,240,0.3); transform: translateY(-2px); }
+        .btn-ghost { padding: 15px 28px; background: transparent; color: var(--text-secondary); border: 1px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; cursor: none; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
+        .btn-ghost:hover { color: var(--text-primary); border-color: var(--border-bright); }
         .btn-ghost svg { transition: transform 0.3s; }
         .btn-ghost:hover svg { transform: translateX(4px); }
+        .hero-stats { display: flex; gap: 40px; margin-top: 72px; padding-top: 40px; border-top: 1px solid var(--border); opacity: 0; animation: fadeSlideUp 0.8s ease forwards 1.1s; }
+        .stat-num { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.8rem; letter-spacing: -0.02em; color: var(--text-primary); display: block; }
+        .stat-label { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; display: block; }
+        .hero-divider { position: absolute; left: 50%; top: 10%; bottom: 10%; width: 1px; background: linear-gradient(to bottom, transparent, var(--border-bright) 30%, var(--border-bright) 70%, transparent); z-index: 3; }
 
-        /* STATS ROW */
-        .hero-stats {
-            display: flex;
-            gap: 40px;
-            margin-top: 72px;
-            padding-top: 40px;
-            border-top: 1px solid var(--border);
-            opacity: 0;
-            animation: fadeSlideUp 0.8s ease forwards 1.1s;
-        }
-        .stat-item { }
-        .stat-num {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 1.8rem;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-            display: block;
-        }
-        .stat-label {
-            font-size: 0.75rem;
-            font-weight: 400;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-top: 4px;
-            display: block;
-        }
+        .hero-right { display: flex; flex-direction: column; justify-content: center; padding: 120px 80px 80px 72px; position: relative; z-index: 2; }
+        .auth-container { width: 100%; max-width: 420px; margin: 0 auto; }
+        .auth-header { margin-bottom: 32px; opacity: 0; animation: fadeSlideUp 0.8s ease forwards 0.6s; }
+        .auth-header h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.7rem; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 8px; }
+        .auth-header p { font-size: 0.9rem; color: var(--text-secondary); font-weight: 300; }
 
-        /* VERTICAL DIVIDER */
-        .hero-divider {
-            position: absolute;
-            left: 50%;
-            top: 10%;
-            bottom: 10%;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, var(--border-bright) 30%, var(--border-bright) 70%, transparent);
-            z-index: 3;
-        }
+        /* LOGGED IN */
+        .auth-logged-in { display: none; text-align: center; padding: 32px 16px; }
+        .auth-logged-in.show { display: block; }
+        .logged-in-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--accent-dim); border: 2px solid rgba(200,214,240,0.25); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--accent); margin: 0 auto 20px; }
+        .logged-in-name { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+        .logged-in-email { font-size: 0.83rem; color: var(--text-secondary); margin-bottom: 24px; }
+        .logged-in-tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.2); border-radius: 100px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--success); margin-bottom: 28px; }
+        .btn-signout { width: 100%; padding: 13px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); cursor: none; transition: all 0.3s; }
+        .btn-signout:hover { background: rgba(248,113,113,0.1); border-color: rgba(248,113,113,0.3); color: var(--error); }
 
-        /* ═══════════════════════════════════ HERO RIGHT — AUTH */
-        .hero-right {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 120px 80px 80px 72px;
-            position: relative;
-            z-index: 2;
-        }
+        .role-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 3px; margin-bottom: 24px; opacity: 0; animation: fadeSlideUp 0.8s ease forwards 0.75s; }
+        .role-btn { padding: 11px 16px; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; cursor: none; transition: all 0.25s ease; background: transparent; color: var(--text-muted); }
+        .role-btn.active { background: var(--surface-3); color: var(--text-primary); box-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+        .role-btn:hover:not(.active) { color: var(--text-secondary); }
 
-        .auth-container {
-            width: 100%;
-            max-width: 420px;
-            margin: 0 auto;
-        }
+        .auth-error { display: none; padding: 11px 14px; background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.2); border-radius: 8px; font-size: 0.82rem; color: var(--error); margin-bottom: 14px; }
+        .auth-error.show { display: block; }
 
-        .auth-header {
-            margin-bottom: 40px;
-            opacity: 0;
-            animation: fadeSlideUp 0.8s ease forwards 0.6s;
-        }
-        .auth-header h2 {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 1.7rem;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-        .auth-header p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 300;
-        }
-
-        /* ROLE TOGGLE */
-        .role-toggle {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2px;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 3px;
-            margin-bottom: 32px;
-            opacity: 0;
-            animation: fadeSlideUp 0.8s ease forwards 0.75s;
-        }
-        .role-btn {
-            padding: 11px 16px;
-            border: none;
-            border-radius: 8px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.07em;
-            text-transform: uppercase;
-            cursor: none;
-            transition: all 0.25s ease;
-            background: transparent;
-            color: var(--text-muted);
-            position: relative;
-            overflow: hidden;
-        }
-        .role-btn.active {
-            background: var(--surface-3);
-            color: var(--text-primary);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-        }
-        .role-btn:hover:not(.active) {
-            color: var(--text-secondary);
-        }
-        .role-icon { margin-right: 6px; }
-
-        /* AUTH FORM */
-        .auth-form {
-            opacity: 0;
-            animation: fadeSlideUp 0.8s ease forwards 0.9s;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-            position: relative;
-        }
-        .form-label {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-        .form-input {
-            width: 100%;
-            padding: 13px 16px;
-            background: var(--surface-1);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.92rem;
-            font-weight: 400;
-            color: var(--text-primary);
-            transition: all 0.25s ease;
-            outline: none;
-        }
+        .auth-form { opacity: 0; animation: fadeSlideUp 0.8s ease forwards 0.9s; }
+        .form-group { margin-bottom: 13px; }
+        .form-label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 7px; }
+        .form-input { width: 100%; padding: 13px 16px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.92rem; color: var(--text-primary); transition: all 0.25s ease; outline: none; }
         .form-input::placeholder { color: var(--text-muted); }
-        .form-input:focus {
-            border-color: var(--border-bright);
-            background: var(--surface-2);
-            box-shadow: 0 0 0 3px rgba(200,214,240,0.06);
-        }
+        .form-input:focus { border-color: var(--border-bright); background: var(--surface-2); box-shadow: 0 0 0 3px rgba(200,214,240,0.06); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 13px; }
+        .form-row .form-group { margin-bottom: 0; }
+        .form-footer { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .form-check { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-secondary); }
+        .form-check input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--accent); }
+        .form-link-btn { font-size: 0.8rem; color: var(--text-secondary); background: none; border: none; cursor: none; transition: color 0.2s; padding: 0; }
+        .form-link-btn:hover { color: var(--text-primary); }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .form-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .form-check {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            cursor: none;
-        }
-        .form-check input[type="checkbox"] {
-            width: 14px; height: 14px;
-            accent-color: var(--accent);
-        }
-        .form-link {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .form-link:hover { color: var(--text-primary); }
-
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--text-primary);
-            color: var(--black);
-            border: none;
-            border-radius: 8px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.88rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            cursor: none;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        .submit-btn::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
-            transform: translateX(-100%);
-            transition: transform 0.5s;
-        }
+        .submit-btn { width: 100%; padding: 14px; background: var(--text-primary); color: var(--black); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: none; transition: all 0.3s; margin-bottom: 18px; position: relative; overflow: hidden; }
+        .submit-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%); transform: translateX(-100%); transition: transform 0.5s; }
         .submit-btn:hover::after { transform: translateX(100%); }
-        .submit-btn:hover {
-            background: var(--white);
-            box-shadow: 0 8px 30px rgba(200,214,240,0.2);
-            transform: translateY(-1px);
-        }
+        .submit-btn:hover { background: var(--white); box-shadow: 0 8px 30px rgba(200,214,240,0.2); transform: translateY(-1px); }
+        .submit-btn:disabled { opacity: 0.6; transform: none !important; }
 
-        .divider-or {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 16px;
-        }
-        .divider-or::before, .divider-or::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-        .divider-or span {
-            font-size: 0.72rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
+        .divider-or { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+        .divider-or::before, .divider-or::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .divider-or span { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
 
-        .social-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .social-btn {
-            padding: 12px 16px;
-            background: var(--surface-1);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: none;
-            transition: all 0.25s;
-        }
-        .social-btn:hover {
-            background: var(--surface-2);
-            border-color: var(--border-bright);
-            color: var(--text-primary);
-            transform: translateY(-2px);
-        }
-        .social-btn svg { flex-shrink: 0; }
+        .social-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .social-btn { padding: 12px 16px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 9px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); cursor: none; transition: all 0.25s; }
+        .social-btn:hover { background: var(--surface-2); border-color: var(--border-bright); color: var(--text-primary); transform: translateY(-2px); }
 
-        .auth-switch {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-        }
-        .auth-switch a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
+        .auth-switch { text-align: center; margin-top: 18px; font-size: 0.82rem; color: var(--text-muted); }
+        .auth-switch a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.2s; }
         .auth-switch a:hover { color: var(--text-primary); }
 
-        /* VIEW MODES */
         .view-login .signup-only { display: none; }
         .view-signup .login-only { display: none; }
-        .view-signup .form-row { display: grid; }
 
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* RESET PANEL */
+        .reset-panel { display: none; }
+        .reset-panel.show { display: block; }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); background: none; border: none; cursor: none; margin-bottom: 20px; padding: 0; transition: color 0.2s; }
+        .back-btn:hover { color: var(--text-secondary); }
 
-        /* ═══════════════════════════════════ FEATURES SECTION */
-        .features {
-            padding: 140px 80px;
-            position: relative;
-            z-index: 2;
-            border-top: 1px solid var(--border);
-        }
+        /* TOAST */
+        .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface-2); border: 1px solid var(--border-bright); border-radius: 10px; padding: 13px 22px; font-size: 0.85rem; color: var(--text-primary); z-index: 9000; opacity: 0; transition: all 0.4s ease; pointer-events: none; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { border-color: rgba(74,222,128,0.3); }
+        .toast.error { border-color: rgba(248,113,113,0.3); }
 
-        .section-label {
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .section-label::before {
-            content: '';
-            width: 24px;
-            height: 1px;
-            background: var(--text-muted);
-        }
+        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .features-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: end;
-            margin-bottom: 80px;
-        }
-        .features-title {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: clamp(2rem, 3vw, 3rem);
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            color: var(--text-primary);
-        }
-        .features-desc {
-            font-size: 0.95rem;
-            line-height: 1.75;
-            color: var(--text-secondary);
-            font-weight: 300;
-            max-width: 380px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .feature-card {
-            background: var(--surface-0);
-            padding: 40px 36px;
-            position: relative;
-            overflow: hidden;
-            transition: background 0.3s;
-        }
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle 200px at var(--mx, 50%) var(--my, 0%), var(--accent-glow) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
+        .features { padding: 140px 80px; position: relative; z-index: 2; border-top: 1px solid var(--border); }
+        .section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+        .section-label::before { content: ''; width: 24px; height: 1px; background: var(--text-muted); }
+        .features-header { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 80px; }
+        .features-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(2rem, 3vw, 3rem); letter-spacing: -0.03em; line-height: 1.1; color: var(--text-primary); }
+        .features-desc { font-size: 0.95rem; line-height: 1.75; color: var(--text-secondary); font-weight: 300; max-width: 380px; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+        .feature-card { background: var(--surface-0); padding: 40px 36px; position: relative; overflow: hidden; transition: background 0.3s; }
+        .feature-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle 200px at var(--mx,50%) var(--my,0%), var(--accent-glow) 0%, transparent 100%); opacity: 0; transition: opacity 0.4s; }
         .feature-card:hover::before { opacity: 1; }
         .feature-card:hover { background: var(--surface-1); }
+        .feature-icon { width: 44px; height: 44px; background: var(--surface-3); border: 1px solid var(--border-bright); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 1.1rem; transition: all 0.3s; }
+        .feature-card:hover .feature-icon { background: var(--accent-dim); border-color: rgba(200,214,240,0.25); }
+        .feature-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; color: var(--text-primary); margin-bottom: 12px; }
+        .feature-text { font-size: 0.85rem; line-height: 1.7; color: var(--text-secondary); font-weight: 300; }
 
-        .feature-icon {
-            width: 44px; height: 44px;
-            background: var(--surface-3);
-            border: 1px solid var(--border-bright);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 24px;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-        .feature-card:hover .feature-icon {
-            background: var(--accent-dim);
-            border-color: rgba(200,214,240,0.25);
-        }
+        .how-it-works { padding: 120px 80px; position: relative; z-index: 2; border-top: 1px solid var(--border); background: var(--surface-0); }
+        .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px; margin-top: 60px; position: relative; }
+        .steps::before { content: ''; position: absolute; top: 22px; left: 60px; right: 60px; height: 1px; background: linear-gradient(to right, transparent, var(--border-bright), var(--border-bright), transparent); }
+        .step-num { width: 44px; height: 44px; background: var(--surface-2); border: 1px solid var(--border-bright); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 24px; position: relative; z-index: 1; transition: all 0.3s; }
+        .step:hover .step-num { background: var(--accent-dim); border-color: rgba(200,214,240,0.3); color: var(--accent); }
+        .step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--text-primary); margin-bottom: 10px; }
+        .step-text { font-size: 0.83rem; line-height: 1.65; color: var(--text-secondary); font-weight: 300; }
 
-        .feature-title {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: -0.01em;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-        }
-        .feature-text {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            color: var(--text-secondary);
-            font-weight: 300;
-        }
+        .marquee-section { padding: 48px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; position: relative; z-index: 2; }
+        .marquee-track { display: flex; gap: 60px; animation: marquee 30s linear infinite; width: max-content; }
+        .marquee-item { font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; display: flex; align-items: center; gap: 20px; }
+        .marquee-item::after { content: '✦'; font-size: 0.6rem; }
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        /* ═══════════════════════════════════ HOW IT WORKS */
-        .how-it-works {
-            padding: 120px 80px;
-            position: relative;
-            z-index: 2;
-            border-top: 1px solid var(--border);
-            background: var(--surface-0);
-        }
+        .testimonials { padding: 120px 80px; position: relative; z-index: 2; border-top: 1px solid var(--border); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; }
+        .testimonial-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 32px 30px; transition: all 0.3s; position: relative; overflow: hidden; }
+        .testimonial-card::before { content: '"'; position: absolute; top: -10px; right: 24px; font-family: 'Syne', sans-serif; font-size: 8rem; color: var(--border); line-height: 1; pointer-events: none; }
+        .testimonial-card:hover { border-color: var(--border-bright); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+        .testimonial-text { font-size: 0.9rem; line-height: 1.75; color: var(--text-secondary); font-weight: 300; margin-bottom: 24px; }
+        .testimonial-author { display: flex; align-items: center; gap: 12px; }
+        .author-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--surface-3); border: 1px solid var(--border-bright); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); }
+        .author-name { font-family: 'Syne', sans-serif; font-size: 0.83rem; font-weight: 700; color: var(--text-primary); }
+        .author-role { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
 
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 48px;
-            margin-top: 60px;
-            position: relative;
-        }
-        .steps::before {
-            content: '';
-            position: absolute;
-            top: 22px; left: 60px; right: 60px;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--border-bright), var(--border-bright), transparent);
-        }
+        .cta-section { padding: 100px 80px 120px; position: relative; z-index: 2; border-top: 1px solid var(--border); text-align: center; }
+        .cta-section .hero-title { max-width: 700px; margin: 0 auto 24px; opacity: 1; animation: none; }
+        .cta-section .hero-sub { max-width: 500px; margin: 0 auto 44px; opacity: 1; animation: none; }
+        .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
-        .step {
-            position: relative;
-        }
-        .step-num {
-            width: 44px; height: 44px;
-            background: var(--surface-2);
-            border: 1px solid var(--border-bright);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Syne', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
-            transition: all 0.3s;
-        }
-        .step:hover .step-num {
-            background: var(--accent-dim);
-            border-color: rgba(200,214,240,0.3);
-            color: var(--accent);
-        }
-        .step-title {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-        }
-        .step-text {
-            font-size: 0.83rem;
-            line-height: 1.65;
-            color: var(--text-secondary);
-            font-weight: 300;
-        }
-
-        /* ═══════════════════════════════════ MARQUEE */
-        .marquee-section {
-            padding: 48px 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            overflow: hidden;
-            position: relative;
-            z-index: 2;
-        }
-        .marquee-track {
-            display: flex;
-            gap: 60px;
-            animation: marquee 30s linear infinite;
-            width: max-content;
-        }
-        .marquee-item {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .marquee-item::after {
-            content: '✦';
-            font-size: 0.6rem;
-            color: var(--text-muted);
-        }
-        @keyframes marquee {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        /* ═══════════════════════════════════ TESTIMONIALS */
-        .testimonials {
-            padding: 120px 80px;
-            position: relative;
-            z-index: 2;
-            border-top: 1px solid var(--border);
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 60px;
-        }
-
-        .testimonial-card {
-            background: var(--surface-1);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 32px 30px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: -10px; right: 24px;
-            font-family: 'Syne', sans-serif;
-            font-size: 8rem;
-            color: var(--border);
-            line-height: 1;
-            pointer-events: none;
-        }
-        .testimonial-card:hover {
-            border-color: var(--border-bright);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        }
-        .testimonial-text {
-            font-size: 0.9rem;
-            line-height: 1.75;
-            color: var(--text-secondary);
-            font-weight: 300;
-            margin-bottom: 24px;
-            position: relative;
-        }
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .author-avatar {
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            background: var(--surface-3);
-            border: 1px solid var(--border-bright);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Syne', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-        }
-        .author-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.83rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        .author-role {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        /* ═══════════════════════════════════ CTA SECTION */
-        .cta-section {
-            padding: 100px 80px 120px;
-            position: relative;
-            z-index: 2;
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-        .cta-section .hero-title {
-            max-width: 700px;
-            margin: 0 auto 24px;
-            opacity: 1;
-            animation: none;
-        }
-        .cta-section .hero-sub {
-            max-width: 500px;
-            margin: 0 auto 44px;
-            opacity: 1;
-            animation: none;
-        }
-        .cta-actions {
-            display: flex;
-            gap: 14px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* ═══════════════════════════════════ FOOTER */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 40px 80px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            z-index: 2;
-        }
-        .footer-left {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1rem;
-            letter-spacing: 0.12em;
-            color: var(--text-muted);
-        }
-        .footer-right {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-        }
-        .footer-links {
-            display: flex;
-            gap: 28px;
-        }
-        .footer-links a {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            letter-spacing: 0.05em;
-            transition: color 0.2s;
-        }
+        footer { border-top: 1px solid var(--border); padding: 40px 80px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 2; }
+        .footer-left { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.12em; color: var(--text-muted); }
+        .footer-right { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em; }
+        .footer-links { display: flex; gap: 28px; }
+        .footer-links a { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
         .footer-links a:hover { color: var(--text-secondary); }
 
-        /* SCROLL ANIMATIONS */
-        .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* RESPONSIVE */
         @media (max-width: 1100px) {
             .hero { grid-template-columns: 1fr; min-height: auto; }
             .hero-divider { display: none; }
@@ -1003,443 +229,395 @@
 </head>
 <body>
 
-    <!-- CUSTOM CURSOR -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="toast" id="toast"><span id="toastIcon"></span><span id="toastMsg"></span></div>
 
-    <!-- NAV -->
-    <nav>
-        <a href="#" class="nav-logo"><span>ZAN</span>.COM</a>
-        <ul class="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#testimonials">Stories</a></li>
-            <li><a href="#" class="nav-cta">Get Started</a></li>
-        </ul>
-    </nav>
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-logo"><span>ZAN</span>.COM</a>
+    <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#testimonials">Stories</a></li>
+        <li id="navGetStarted"><a href="#" class="nav-cta" onclick="scrollToAuth();return false;">Get Started</a></li>
+        <li id="navUserItem" style="display:none;">
+            <div class="nav-user show">
+                <div class="nav-user-avatar" id="navAvatar"></div>
+                <span id="navName"></span>
+                <button class="nav-signout" id="navSignoutBtn">Sign out</button>
+            </div>
+        </li>
+    </ul>
+</nav>
 
-    <!-- ═══ HERO ═══ -->
-    <section class="hero" id="hero">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="hero-divider"></div>
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+    <div class="hero-divider"></div>
 
-        <!-- LEFT: LANDING -->
-        <div class="hero-left">
-            <div class="hero-badge">
-                <span class="badge-dot"></span>
-                Now open for talent worldwide
-            </div>
-            <h1 class="hero-title">
-                <span class="line-accent">Work.</span><br>
-                <span class="line-accent">Hire.</span><br>
-                <span class="line-dim">Without limits.</span>
-            </h1>
-            <p class="hero-sub">
-                ZAN connects elite freelancers with companies that move fast. No middlemen, no friction — just real work done by real people.
-            </p>
-            <div class="hero-actions">
-                <button class="btn-primary" onclick="scrollToSection('features')">Explore Platform</button>
-                <button class="btn-ghost" onclick="scrollToSection('how-it-works')">
-                    How it works
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-num" data-count="24000">0</span>
-                    <span class="stat-label">Freelancers</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-num" data-count="8500">0</span>
-                    <span class="stat-label">Companies</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-num" data-count="99">0</span>
-                    <span class="stat-label">% Satisfaction</span>
-                </div>
-            </div>
+    <div class="hero-left">
+        <div class="hero-badge"><span class="badge-dot"></span>Now open for talent worldwide</div>
+        <h1 class="hero-title"><span class="line-accent">Work.</span><br><span class="line-accent">Hire.</span><br><span class="line-dim">Without limits.</span></h1>
+        <p class="hero-sub">ZAN connects elite freelancers with companies that move fast. No middlemen, no friction — just real work done by real people.</p>
+        <div class="hero-actions">
+            <button class="btn-primary" onclick="scrollToSection('features')">Explore Platform</button>
+            <button class="btn-ghost" onclick="scrollToSection('how-it-works')">How it works <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
-
-        <!-- RIGHT: AUTH -->
-        <div class="hero-right">
-            <div class="auth-container" id="authBox">
-                <div class="auth-header">
-                    <h2>Get started</h2>
-                    <p>Sign in or create your account below</p>
-                </div>
-
-                <div class="role-toggle">
-                    <button class="role-btn active" onclick="setRole('worker', this)">
-                        <span class="role-icon">⚡</span>I Want to Work
-                    </button>
-                    <button class="role-btn" onclick="setRole('hirer', this)">
-                        <span class="role-icon">🔍</span>I Want to Hire
-                    </button>
-                </div>
-
-                <div class="auth-form" id="authForm">
-                    <!-- View toggle -->
-                    <div class="signup-only form-row" style="margin-bottom:14px;">
-                        <div class="form-group" style="margin-bottom:0">
-                            <label class="form-label">First Name</label>
-                            <input type="text" class="form-input" placeholder="Jane">
-                        </div>
-                        <div class="form-group" style="margin-bottom:0">
-                            <label class="form-label">Last Name</label>
-                            <input type="text" class="form-input" placeholder="Doe">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Email Address</label>
-                        <input type="email" class="form-input" id="emailInput" placeholder="you@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-input" id="passwordInput" placeholder="••••••••">
-                    </div>
-
-                    <div class="form-footer login-only">
-                        <label class="form-check">
-                            <input type="checkbox"> Remember me
-                        </label>
-                        <a href="#" class="form-link">Forgot password?</a>
-                    </div>
-
-                    <button class="submit-btn" id="submitBtn" onclick="handleAuth()">
-                        Sign In
-                    </button>
-
-                    <div class="divider-or"><span>or continue with</span></div>
-
-                    <div class="social-btns">
-                        <button class="social-btn" onclick="googleLogin()">
-                            <svg width="16" height="16" viewBox="0 0 24 24">
-                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                            </svg>
-                            Google
-                        </button>
-                        <button class="social-btn" onclick="appleLogin()">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                            </svg>
-                            Apple
-                        </button>
-                    </div>
-
-                    <div class="auth-switch login-only">
-                        Don't have an account? <a href="#" onclick="switchToSignup(event)">Create one</a>
-                    </div>
-                    <div class="auth-switch signup-only">
-                        Already have an account? <a href="#" onclick="switchToLogin(event)">Sign in</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══ MARQUEE ═══ -->
-    <div class="marquee-section">
-        <div class="marquee-track">
-            <span class="marquee-item">Verified Freelancers</span>
-            <span class="marquee-item">Instant Matching</span>
-            <span class="marquee-item">Secure Payments</span>
-            <span class="marquee-item">Global Talent Pool</span>
-            <span class="marquee-item">Zero Commission Surprises</span>
-            <span class="marquee-item">Real-Time Collaboration</span>
-            <span class="marquee-item">Smart Contracts</span>
-            <span class="marquee-item">24/7 Support</span>
-            <span class="marquee-item">Verified Freelancers</span>
-            <span class="marquee-item">Instant Matching</span>
-            <span class="marquee-item">Secure Payments</span>
-            <span class="marquee-item">Global Talent Pool</span>
-            <span class="marquee-item">Zero Commission Surprises</span>
-            <span class="marquee-item">Real-Time Collaboration</span>
-            <span class="marquee-item">Smart Contracts</span>
-            <span class="marquee-item">24/7 Support</span>
+        <div class="hero-stats">
+            <div><span class="stat-num" data-count="24000">0</span><span class="stat-label">Freelancers</span></div>
+            <div><span class="stat-num" data-count="8500">0</span><span class="stat-label">Companies</span></div>
+            <div><span class="stat-num" data-count="99">0</span><span class="stat-label">% Satisfaction</span></div>
         </div>
     </div>
 
-    <!-- ═══ FEATURES ═══ -->
-    <section class="features reveal" id="features">
-        <div class="features-header">
-            <div>
-                <p class="section-label">Platform Features</p>
-                <h2 class="features-title">Built for speed.<br>Designed to last.</h2>
+    <!-- AUTH -->
+    <div class="hero-right">
+        <div class="auth-container" id="authBox">
+            <div class="auth-header">
+                <h2 id="authTitle">Get started</h2>
+                <p id="authSubtitle">Sign in or create your account below</p>
             </div>
-            <p class="features-desc">
-                Every tool you need to find great work or great talent — without the noise. ZAN is engineered for professionals who value their time.
-            </p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card" onmousemove="updateCardGlow(event, this)">
-                <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">Instant Matching</h3>
-                <p class="feature-text">Our algorithm surfaces the right talent or jobs within seconds, based on skills, history, and context — not just keywords.</p>
-            </div>
-            <div class="feature-card" onmousemove="updateCardGlow(event, this)">
-                <div class="feature-icon">🔒</div>
-                <h3 class="feature-title">Escrow Payments</h3>
-                <p class="feature-text">Funds are secured before work begins. Freelancers get paid on delivery. No invoices chased, no disputes unresolved.</p>
-            </div>
-            <div class="feature-card" onmousemove="updateCardGlow(event, this)">
-                <div class="feature-icon">✦</div>
-                <h3 class="feature-title">Verified Profiles</h3>
-                <p class="feature-text">Every account goes through ID and skill verification. You're working with who they say they are — every time.</p>
-            </div>
-            <div class="feature-card" onmousemove="updateCardGlow(event, this)">
-                <div class="feature-icon">📊</div>
-                <h3 class="feature-title">Analytics Dashboard</h3>
-                <p class="feature-text">Track earnings, spending, project health, and performance metrics from one clean, no-clutter dashboard.</p>
-            </div>
-            <div class="feature-card" onmousemove="updateCardGlow(event, this)">
-                <div class="feature-icon">💬</div>
-                <h3 class="feature-title">Built-in Comms</h3>
-                <p class="feature-text">Real-time messaging, file sharing, and video calls — all inside ZAN, all on the record. No jumping between apps.</p>
-            </div>
-            <div class="feature-card" onmousemove="updateCardGlow(event, this)">
-                <div class="feature-icon">🌐</div>
-                <h3 class="feature-title">Global & Local</h3>
-                <p class="feature-text">Work with someone two blocks away or two timezones out. ZAN handles currency conversion and local compliance.</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- ═══ HOW IT WORKS ═══ -->
-    <section class="how-it-works reveal" id="how-it-works">
-        <p class="section-label">Process</p>
-        <h2 class="features-title">From zero to hired<br>in four steps.</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="step-num">01</div>
-                <h4 class="step-title">Create Your Profile</h4>
-                <p class="step-text">Set up in under 5 minutes. List your skills, experience, and what kind of work you're looking for — or looking to hire.</p>
+            <!-- LOGGED IN VIEW -->
+            <div class="auth-logged-in" id="loggedInView">
+                <div class="logged-in-avatar" id="liAvatar"></div>
+                <p class="logged-in-name" id="liName"></p>
+                <p class="logged-in-email" id="liEmail"></p>
+                <div class="logged-in-tag">✓ &nbsp;Authenticated</div>
+                <button class="btn-signout" id="liSignoutBtn">Sign out of ZAN</button>
             </div>
-            <div class="step">
-                <div class="step-num">02</div>
-                <h4 class="step-title">Get Matched</h4>
-                <p class="step-text">ZAN's engine finds you the best-fit roles or candidates instantly. No scrolling through hundreds of irrelevant listings.</p>
-            </div>
-            <div class="step">
-                <div class="step-num">03</div>
-                <h4 class="step-title">Agree & Begin</h4>
-                <p class="step-text">Finalize scope, milestones, and terms. Smart contracts auto-generate so everyone is protected from day one.</p>
-            </div>
-            <div class="step">
-                <div class="step-num">04</div>
-                <h4 class="step-title">Deliver & Get Paid</h4>
-                <p class="step-text">Submit work, get it approved, receive funds. Ratings build your reputation for the next opportunity.</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- ═══ TESTIMONIALS ═══ -->
-    <section class="testimonials reveal" id="testimonials">
-        <p class="section-label">Stories</p>
-        <h2 class="features-title">What our people say.</h2>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <p class="testimonial-text">I went from zero clients to fully booked within three weeks of joining ZAN. The matching is genuinely uncanny — every lead was the right fit.</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">AK</div>
-                    <div>
-                        <p class="author-name">Amara Kone</p>
-                        <p class="author-role">Product Designer · Lagos</p>
-                    </div>
+            <!-- FORMS VIEW -->
+            <div id="formsView">
+                <div class="role-toggle">
+                    <button class="role-btn active" onclick="setRole(this)">⚡ I Want to Work</button>
+                    <button class="role-btn" onclick="setRole(this)">🔍 I Want to Hire</button>
                 </div>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">We scaled our engineering team by 6 contractors in two weeks. Zero payroll headache. ZAN handles everything behind the scenes.</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">TW</div>
-                    <div>
-                        <p class="author-name">Thomas Wu</p>
-                        <p class="author-role">CTO · Singapore</p>
+                <div class="auth-error" id="authError"></div>
+
+                <!-- MAIN FORM -->
+                <div class="auth-form" id="mainForm">
+                    <div class="signup-only form-row">
+                        <div class="form-group"><label class="form-label">First Name</label><input type="text" class="form-input" id="firstNameInput" placeholder="Jane"></div>
+                        <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" id="lastNameInput" placeholder="Doe"></div>
                     </div>
+                    <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" id="emailInput" placeholder="you@example.com"></div>
+                    <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="passwordInput" placeholder="••••••••"></div>
+                    <div class="form-footer login-only">
+                        <label class="form-check"><input type="checkbox"> Remember me</label>
+                        <button class="form-link-btn" id="forgotBtn">Forgot password?</button>
+                    </div>
+                    <button class="submit-btn" id="submitBtn">Sign In</button>
+                    <div class="divider-or"><span>or continue with</span></div>
+                    <div class="social-btns">
+                        <button class="social-btn" id="googleBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                            Google
+                        </button>
+
+                    </div>
+                    <div class="auth-switch login-only">Don't have an account? <a href="#" id="toSignupLink">Create one</a></div>
+                    <div class="auth-switch signup-only">Already have an account? <a href="#" id="toLoginLink">Sign in</a></div>
                 </div>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">Other platforms felt like a lottery. ZAN feels like a handshake. The verified profiles and escrow gave us real confidence from the first project.</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">SR</div>
-                    <div>
-                        <p class="author-name">Sofia Reyes</p>
-                        <p class="author-role">Founder · Madrid</p>
-                    </div>
+
+                <!-- RESET PANEL -->
+                <div class="reset-panel" id="resetPanel">
+                    <button class="back-btn" id="backFromResetBtn">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7H2M7 2L2 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Back to sign in
+                    </button>
+                    <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" id="resetEmailInput" placeholder="you@example.com"></div>
+                    <button class="submit-btn" id="resetBtn">Send Reset Link</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ═══ CTA ═══ -->
-    <section class="cta-section reveal">
-        <p class="section-label" style="justify-content:center;">Ready?</p>
-        <h1 class="hero-title">
-            <span class="line-accent">Your next opportunity<br>starts here.</span>
-        </h1>
-        <p class="hero-sub">Join thousands of freelancers and companies already building the future of work on ZAN.</p>
-        <div class="cta-actions">
-            <button class="btn-primary" onclick="scrollToAuth()">Start for Free</button>
-            <button class="btn-ghost">
-                View Pricing
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-        </div>
-    </section>
+<!-- MARQUEE -->
+<div class="marquee-section">
+    <div class="marquee-track">
+        <span class="marquee-item">Verified Freelancers</span><span class="marquee-item">Instant Matching</span><span class="marquee-item">Secure Payments</span><span class="marquee-item">Global Talent Pool</span><span class="marquee-item">Zero Commission Surprises</span><span class="marquee-item">Real-Time Collaboration</span><span class="marquee-item">Smart Contracts</span><span class="marquee-item">24/7 Support</span>
+        <span class="marquee-item">Verified Freelancers</span><span class="marquee-item">Instant Matching</span><span class="marquee-item">Secure Payments</span><span class="marquee-item">Global Talent Pool</span><span class="marquee-item">Zero Commission Surprises</span><span class="marquee-item">Real-Time Collaboration</span><span class="marquee-item">Smart Contracts</span><span class="marquee-item">24/7 Support</span>
+    </div>
+</div>
 
-    <!-- ═══ FOOTER ═══ -->
-    <footer>
-        <div class="footer-left">ZAN.COM</div>
-        <div class="footer-links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Careers</a>
-            <a href="#">Contact</a>
-        </div>
-        <div class="footer-right">© 2025 ZAN Technologies</div>
-    </footer>
+<!-- FEATURES -->
+<section class="features reveal" id="features">
+    <div class="features-header">
+        <div><p class="section-label">Platform Features</p><h2 class="features-title">Built for speed.<br>Designed to last.</h2></div>
+        <p class="features-desc">Every tool you need to find great work or great talent — without the noise. ZAN is engineered for professionals who value their time.</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card" onmousemove="cardGlow(event,this)"><div class="feature-icon">⚡</div><h3 class="feature-title">Instant Matching</h3><p class="feature-text">Our algorithm surfaces the right talent or jobs within seconds, based on skills, history, and context — not just keywords.</p></div>
+        <div class="feature-card" onmousemove="cardGlow(event,this)"><div class="feature-icon">🔒</div><h3 class="feature-title">Escrow Payments</h3><p class="feature-text">Funds are secured before work begins. Freelancers get paid on delivery. No invoices chased, no disputes unresolved.</p></div>
+        <div class="feature-card" onmousemove="cardGlow(event,this)"><div class="feature-icon">✦</div><h3 class="feature-title">Verified Profiles</h3><p class="feature-text">Every account goes through ID and skill verification. You're working with who they say they are — every time.</p></div>
+        <div class="feature-card" onmousemove="cardGlow(event,this)"><div class="feature-icon">📊</div><h3 class="feature-title">Analytics Dashboard</h3><p class="feature-text">Track earnings, spending, project health, and performance metrics from one clean, no-clutter dashboard.</p></div>
+        <div class="feature-card" onmousemove="cardGlow(event,this)"><div class="feature-icon">💬</div><h3 class="feature-title">Built-in Comms</h3><p class="feature-text">Real-time messaging, file sharing, and video calls — all inside ZAN, all on the record.</p></div>
+        <div class="feature-card" onmousemove="cardGlow(event,this)"><div class="feature-icon">🌐</div><h3 class="feature-title">Global & Local</h3><p class="feature-text">Work with someone two blocks away or two timezones out. ZAN handles currency conversion and local compliance.</p></div>
+    </div>
+</section>
 
-    <script>
-        // ─── CURSOR
-        const cursor = document.getElementById('cursor');
-        const ring = document.getElementById('cursorRing');
-        let cx = 0, cy = 0, rx = 0, ry = 0;
+<!-- HOW IT WORKS -->
+<section class="how-it-works reveal" id="how-it-works">
+    <p class="section-label">Process</p><h2 class="features-title">From zero to hired<br>in four steps.</h2>
+    <div class="steps">
+        <div class="step"><div class="step-num">01</div><h4 class="step-title">Create Your Profile</h4><p class="step-text">Set up in under 5 minutes. List your skills, experience, and what kind of work you're looking for.</p></div>
+        <div class="step"><div class="step-num">02</div><h4 class="step-title">Get Matched</h4><p class="step-text">ZAN's engine finds you the best-fit roles or candidates instantly. No scrolling through irrelevant listings.</p></div>
+        <div class="step"><div class="step-num">03</div><h4 class="step-title">Agree & Begin</h4><p class="step-text">Finalize scope, milestones, and terms. Smart contracts auto-generate so everyone is protected from day one.</p></div>
+        <div class="step"><div class="step-num">04</div><h4 class="step-title">Deliver & Get Paid</h4><p class="step-text">Submit work, get it approved, receive funds. Ratings build your reputation for the next opportunity.</p></div>
+    </div>
+</section>
 
-        document.addEventListener('mousemove', e => {
-            cx = e.clientX; cy = e.clientY;
-            cursor.style.left = cx + 'px';
-            cursor.style.top = cy + 'px';
-        });
+<!-- TESTIMONIALS -->
+<section class="testimonials reveal" id="testimonials">
+    <p class="section-label">Stories</p><h2 class="features-title">What our people say.</h2>
+    <div class="testimonials-grid">
+        <div class="testimonial-card"><p class="testimonial-text">I went from zero clients to fully booked within three weeks. The matching is genuinely uncanny — every lead was the right fit.</p><div class="testimonial-author"><div class="author-avatar">AK</div><div><p class="author-name">Amara Kone</p><p class="author-role">Product Designer · Lagos</p></div></div></div>
+        <div class="testimonial-card"><p class="testimonial-text">We scaled our engineering team by 6 contractors in two weeks. Zero payroll headache. ZAN handles everything behind the scenes.</p><div class="testimonial-author"><div class="author-avatar">TW</div><div><p class="author-name">Thomas Wu</p><p class="author-role">CTO · Singapore</p></div></div></div>
+        <div class="testimonial-card"><p class="testimonial-text">Other platforms felt like a lottery. ZAN feels like a handshake. The verified profiles and escrow gave us real confidence from day one.</p><div class="testimonial-author"><div class="author-avatar">SR</div><div><p class="author-name">Sofia Reyes</p><p class="author-role">Founder · Madrid</p></div></div></div>
+    </div>
+</section>
 
-        function animRing() {
-            rx += (cx - rx) * 0.12;
-            ry += (cy - ry) * 0.12;
-            ring.style.left = rx + 'px';
-            ring.style.top = ry + 'px';
-            requestAnimationFrame(animRing);
+<!-- CTA -->
+<section class="cta-section reveal">
+    <p class="section-label" style="justify-content:center;">Ready?</p>
+    <h1 class="hero-title"><span class="line-accent">Your next opportunity<br>starts here.</span></h1>
+    <p class="hero-sub">Join thousands of freelancers and companies already building the future of work on ZAN.</p>
+    <div class="cta-actions">
+        <button class="btn-primary" onclick="scrollToAuth()">Start for Free</button>
+        <button class="btn-ghost">View Pricing <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-left">ZAN.COM</div>
+    <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Careers</a><a href="#">Contact</a></div>
+    <div class="footer-right">© 2025 ZAN Technologies</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     FIREBASE — Paste YOUR config values below
+     Get them from: Firebase Console → Project Settings → Your Apps
+     ═══════════════════════════════════════════════════════ -->
+<script type="module">
+import { initializeApp }            from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+    getAuth, onAuthStateChanged,
+    createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    signOut as fbSignOut, updateProfile,
+    GoogleAuthProvider, signInWithPopup,
+    sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// ▼▼▼  REPLACE THESE WITH YOUR ACTUAL VALUES  ▼▼▼
+const firebaseConfig = {
+   apiKey: "AIzaSyDbZ1slEy95ri1fJqTFowSZzfOjjrntsl4",
+  authDomain: "zan-com.firebaseapp.com",
+  projectId: "zan-com",
+  storageBucket: "zan-com.firebasestorage.app",
+  messagingSenderId: "454341126584",
+  appId: "1:454341126584:web:c4d2c7adae9c1057f2874d"
+};
+// ▲▲▲  REPLACE THESE WITH YOUR ACTUAL VALUES  ▲▲▲
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// ── Utilities ──────────────────────────────────────────────
+function toast(msg, type = 'success') {
+    const el = document.getElementById('toast');
+    document.getElementById('toastIcon').textContent = type === 'success' ? '✓' : '✕';
+    document.getElementById('toastMsg').textContent  = msg;
+    el.className = `toast ${type} show`;
+    setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+function showErr(msg) {
+    const el = document.getElementById('authError');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 5000);
+}
+
+function clearErr() { document.getElementById('authError').classList.remove('show'); }
+
+function fbErr(code) {
+    return ({
+        'auth/email-already-in-use':   'That email is already registered. Try signing in.',
+        'auth/invalid-email':           'Please enter a valid email address.',
+        'auth/weak-password':           'Password needs at least 6 characters.',
+        'auth/user-not-found':          'No account found with that email.',
+        'auth/wrong-password':          'Incorrect password. Try again.',
+        'auth/invalid-credential':      'Incorrect email or password.',
+        'auth/popup-closed-by-user':    null,
+        'auth/cancelled-popup-request': null,
+        'auth/popup-blocked':           'Allow popups for this site, then try again.',
+        'auth/too-many-requests':       'Too many attempts. Please wait a moment.',
+        'auth/network-request-failed':  'Network error. Check your connection.',
+    })[code] || 'Something went wrong. Please try again.';
+}
+
+function getInitials(nameOrEmail) {
+    const n = nameOrEmail?.split(' ');
+    if (n?.length >= 2) return (n[0][0] + n[1][0]).toUpperCase();
+    return (nameOrEmail || '?')[0].toUpperCase();
+}
+
+// ── Auth state ─────────────────────────────────────────────
+onAuthStateChanged(auth, user => {
+    if (user) {
+        const name     = user.displayName || user.email.split('@')[0];
+        const initials = getInitials(name);
+        // Auth panel
+        document.getElementById('loggedInView').classList.add('show');
+        document.getElementById('formsView').style.display    = 'none';
+        document.getElementById('liAvatar').textContent       = initials;
+        document.getElementById('liName').textContent         = `Welcome, ${name.split(' ')[0]}!`;
+        document.getElementById('liEmail').textContent        = user.email;
+        document.getElementById('authTitle').textContent      = 'You\'re in ✓';
+        document.getElementById('authSubtitle').textContent   = 'Your ZAN account is active';
+        // Nav
+        document.getElementById('navGetStarted').style.display = 'none';
+        document.getElementById('navUserItem').style.display   = 'list-item';
+        document.getElementById('navAvatar').textContent       = initials;
+        document.getElementById('navName').textContent         = name.split(' ')[0];
+    } else {
+        document.getElementById('loggedInView').classList.remove('show');
+        document.getElementById('formsView').style.display    = 'block';
+        document.getElementById('authTitle').textContent      = 'Get started';
+        document.getElementById('authSubtitle').textContent   = 'Sign in or create your account below';
+        document.getElementById('navGetStarted').style.display = 'list-item';
+        document.getElementById('navUserItem').style.display   = 'none';
+    }
+});
+
+// ── Sign out (exposed globally) ────────────────────────────
+async function doSignOut() { await fbSignOut(auth); toast('Signed out. See you soon!'); }
+document.getElementById('liSignoutBtn').onclick  = doSignOut;
+document.getElementById('navSignoutBtn').onclick = doSignOut;
+
+// ── Email / password ───────────────────────────────────────
+let isLogin = true;
+
+document.getElementById('submitBtn').onclick = async () => {
+    clearErr();
+    const email    = document.getElementById('emailInput').value.trim();
+    const password = document.getElementById('passwordInput').value;
+    if (!email || !password) { showErr('Please fill in all fields.'); return; }
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = '···';
+    try {
+        if (isLogin) {
+            await signInWithEmailAndPassword(auth, email, password);
+            toast('Welcome back to ZAN!');
+        } else {
+            const fn   = document.getElementById('firstNameInput').value.trim();
+            const ln   = document.getElementById('lastNameInput').value.trim();
+            const cred = await createUserWithEmailAndPassword(auth, email, password);
+            if (fn || ln) await updateProfile(cred.user, { displayName: `${fn} ${ln}`.trim() });
+            toast('Account created! Welcome to ZAN 🎉');
         }
-        animRing();
+    } catch (e) {
+        const msg = fbErr(e.code);
+        if (msg) showErr(msg);
+    } finally {
+        btn.disabled = false; btn.textContent = isLogin ? 'Sign In' : 'Create Account';
+    }
+};
 
-        document.querySelectorAll('button, a, input, label').forEach(el => {
-            el.addEventListener('mouseenter', () => { cursor.classList.add('hovered'); ring.classList.add('hovered'); });
-            el.addEventListener('mouseleave', () => { cursor.classList.remove('hovered'); ring.classList.remove('hovered'); });
-        });
+// ── Google ─────────────────────────────────────────────────
+document.getElementById('googleBtn').onclick = async () => {
+    clearErr();
+    try { await signInWithPopup(auth, new GoogleAuthProvider()); toast('Signed in with Google!'); }
+    catch (e) { const m = fbErr(e.code); if (m) showErr(m); }
+};
 
-        // ─── AUTH TOGGLE
-        let isLogin = true;
 
-        function switchToSignup(e) {
-            e?.preventDefault();
-            isLogin = false;
-            document.getElementById('authForm').classList.remove('view-login');
-            document.getElementById('authForm').classList.add('view-signup');
-            document.getElementById('submitBtn').textContent = 'Create Account';
-            document.querySelector('.auth-header h2').textContent = 'Create account';
-        }
 
-        function switchToLogin(e) {
-            e?.preventDefault();
-            isLogin = true;
-            document.getElementById('authForm').classList.remove('view-signup');
-            document.getElementById('authForm').classList.add('view-login');
-            document.getElementById('submitBtn').textContent = 'Sign In';
-            document.querySelector('.auth-header h2').textContent = 'Welcome back';
-        }
+// ── Password reset ─────────────────────────────────────────
+document.getElementById('resetBtn').onclick = async () => {
+    const email = document.getElementById('resetEmailInput').value.trim();
+    if (!email) { showErr('Enter your email address.'); return; }
+    try {
+        await sendPasswordResetEmail(auth, email);
+        toast('Reset link sent — check your inbox!');
+        showMainForm();
+    } catch (e) { const m = fbErr(e.code); if (m) showErr(m); }
+};
 
-        // Set initial state
-        document.getElementById('authForm').classList.add('view-login');
+// ── View switching ─────────────────────────────────────────
+const mainForm  = document.getElementById('mainForm');
+const resetPanel = document.getElementById('resetPanel');
+mainForm.classList.add('view-login');
 
-        function setRole(role, btn) {
-            document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
+function showMainForm() {
+    resetPanel.classList.remove('show');
+    mainForm.style.display = 'block';
+    document.getElementById('authTitle').textContent    = isLogin ? 'Welcome back' : 'Create account';
+    document.getElementById('authSubtitle').textContent = isLogin ? 'Sign in to your ZAN account' : 'Join ZAN — it\'s free';
+}
 
-        function handleAuth() {
-            const email = document.getElementById('emailInput').value;
-            const pass = document.getElementById('passwordInput').value;
-            if (!email || !pass) {
-                document.getElementById('emailInput').style.borderColor = '#f87171';
-                setTimeout(() => document.getElementById('emailInput').style.borderColor = '', 1500);
-                return;
-            }
-            const btn = document.getElementById('submitBtn');
-            btn.textContent = '···';
-            btn.style.letterSpacing = '0.2em';
-            setTimeout(() => {
-                btn.textContent = isLogin ? 'Sign In' : 'Create Account';
-                btn.style.letterSpacing = '';
-            }, 1500);
-        }
+document.getElementById('forgotBtn').onclick = () => {
+    mainForm.style.display = 'none';
+    resetPanel.classList.add('show');
+    document.getElementById('authTitle').textContent    = 'Reset password';
+    document.getElementById('authSubtitle').textContent = 'We\'ll email you a reset link';
+};
 
-        function googleLogin() { console.log('Google login'); }
-        function appleLogin() { console.log('Apple login'); }
+document.getElementById('backFromResetBtn').onclick = showMainForm;
 
-        // ─── SCROLL HELPERS
-        function scrollToSection(id) {
-            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-        }
-        function scrollToAuth() {
-            document.getElementById('authBox')?.scrollIntoView({ behavior: 'smooth' });
-        }
+document.getElementById('toSignupLink').onclick = e => {
+    e.preventDefault(); isLogin = false;
+    mainForm.classList.replace('view-login', 'view-signup');
+    document.getElementById('submitBtn').textContent    = 'Create Account';
+    document.getElementById('authTitle').textContent    = 'Create account';
+    document.getElementById('authSubtitle').textContent = 'Join ZAN — it\'s free';
+};
 
-        // ─── COUNTER ANIMATION
-        function animateCount(el, target, duration = 2000) {
-            const suffix = target === 99 ? '%' : target >= 1000 ? 'K+' : '+';
-            const num = target >= 1000 ? Math.round(target / 1000) : target;
-            let start = 0;
-            const step = (timestamp) => {
-                if (!start) start = timestamp;
-                const progress = Math.min((timestamp - start) / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                const val = Math.round(eased * num);
-                el.textContent = val + suffix;
-                if (progress < 1) requestAnimationFrame(step);
-            };
-            requestAnimationFrame(step);
-        }
+document.getElementById('toLoginLink').onclick = e => {
+    e.preventDefault(); isLogin = true;
+    mainForm.classList.replace('view-signup', 'view-login');
+    document.getElementById('submitBtn').textContent    = 'Sign In';
+    document.getElementById('authTitle').textContent    = 'Welcome back';
+    document.getElementById('authSubtitle').textContent = 'Sign in to your ZAN account';
+};
+</script>
 
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    document.querySelectorAll('[data-count]').forEach(el => {
-                        animateCount(el, parseInt(el.dataset.count));
-                    });
-                    statsObserver.disconnect();
-                }
-            });
-        }, { threshold: 0.5 });
+<script>
+// ── Cursor ─────────────────────────────────────────────────
+const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+let cx=0,cy=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { cx=e.clientX; cy=e.clientY; cursor.style.left=cx+'px'; cursor.style.top=cy+'px'; });
+(function animRing(){ rx+=(cx-rx)*0.12; ry+=(cy-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
+document.querySelectorAll('button,a,input,label').forEach(el => {
+    el.addEventListener('mouseenter',()=>{cursor.classList.add('hovered');ring.classList.add('hovered');});
+    el.addEventListener('mouseleave',()=>{cursor.classList.remove('hovered');ring.classList.remove('hovered');});
+});
 
-        const statsEl = document.querySelector('.hero-stats');
-        if (statsEl) statsObserver.observe(statsEl);
+// ── Role toggle ────────────────────────────────────────────
+function setRole(btn) { document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 
-        // ─── SCROLL REVEAL
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
+// ── Scroll helpers ─────────────────────────────────────────
+function scrollToSection(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+function scrollToAuth() { document.getElementById('authBox')?.scrollIntoView({behavior:'smooth'}); }
 
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+// ── Counter animation ──────────────────────────────────────
+function animCount(el, target) {
+    const suffix = target===99 ? '%' : target>=1000 ? 'K+' : '+';
+    const num    = target>=1000 ? Math.round(target/1000) : target;
+    let start;
+    (function step(ts){ if(!start)start=ts; const p=Math.min((ts-start)/2000,1); el.textContent=Math.round((1-Math.pow(1-p,3))*num)+suffix; if(p<1)requestAnimationFrame(step); })(performance.now());
+}
+new IntersectionObserver((entries,obs)=>{ entries.forEach(e=>{ if(e.isIntersecting){ document.querySelectorAll('[data-count]').forEach(el=>animCount(el,+el.dataset.count)); obs.disconnect(); } }); },{threshold:0.5}).observe(document.querySelector('.hero-stats'));
 
-        // ─── CARD GLOW
-        function updateCardGlow(e, card) {
-            const rect = card.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
-            const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%';
-            card.style.setProperty('--mx', x);
-            card.style.setProperty('--my', y);
-        }
-    </script>
+// ── Scroll reveal ──────────────────────────────────────────
+new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting)e.target.classList.add('visible'); }),{threshold:0.1}).observe(document.querySelector('.reveal')||document.body);
+document.querySelectorAll('.reveal').forEach(el=>new IntersectionObserver(([e])=>{ if(e.isIntersecting)el.classList.add('visible'); },{threshold:0.1}).observe(el));
+
+// ── Card glow ──────────────────────────────────────────────
+function cardGlow(e,card){ const r=card.getBoundingClientRect(); card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%'); card.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%'); }
+</script>
 </body>
 </html>
