@@ -224,6 +224,81 @@
             footer { padding: 32px 40px; flex-direction: column; gap: 20px; text-align: center; }
             nav { padding: 20px 24px; }
             .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: flex; }
+        }
+
+        /* HAMBURGER */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 36px; height: 36px;
+            background: none;
+            border: 1px solid var(--border-bright);
+            border-radius: 7px;
+            padding: 8px;
+            cursor: none;
+            transition: background 0.3s;
+        }
+        .hamburger span {
+            display: block; height: 1px;
+            background: var(--text-secondary);
+            border-radius: 2px;
+            transition: transform 0.35s, opacity 0.25s;
+            transform-origin: center;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        /* MOBILE OVERLAY */
+        .mobile-menu {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(5,6,8,0.97);
+            backdrop-filter: blur(24px);
+            z-index: 99;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s;
+        }
+        .mobile-menu.open { opacity: 1; pointer-events: all; }
+        .mobile-links {
+            list-style: none;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 10px;
+            width: 100%; padding: 0 40px;
+        }
+        .mobile-links li {
+            width: 100%;
+            opacity: 0; transform: translateY(14px);
+            transition: opacity 0.4s, transform 0.4s;
+        }
+        .mobile-menu.open .mobile-links li:nth-child(1) { opacity:1; transform:none; transition-delay:0.08s; }
+        .mobile-menu.open .mobile-links li:nth-child(2) { opacity:1; transform:none; transition-delay:0.14s; }
+        .mobile-menu.open .mobile-links li:nth-child(3) { opacity:1; transform:none; transition-delay:0.20s; }
+        .mobile-menu.open .mobile-links li:nth-child(4) { opacity:1; transform:none; transition-delay:0.26s; }
+        .mobile-links a {
+            display: block; width: 100%;
+            padding: 18px 20px;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            color: var(--text-secondary); text-decoration: none;
+            border: 1px solid var(--border); border-radius: 10px;
+            background: var(--surface-1); text-align: center;
+            transition: color 0.25s, background 0.25s;
+        }
+        .mobile-links a:hover { color: var(--text-primary); background: var(--surface-2); }
+        .mobile-cta {
+            background: var(--text-primary) !important;
+            color: var(--black) !important;
+            border-color: transparent !important;
         }
     </style>
 </head>
@@ -249,7 +324,19 @@
             </div>
         </li>
     </ul>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+    </button>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-links">
+        <li><a href="#features" onclick="closeMenu()">Features</a></li>
+        <li><a href="#how-it-works" onclick="closeMenu()">How It Works</a></li>
+        <li><a href="#testimonials" onclick="closeMenu()">Stories</a></li>
+        <li><a href="#hero" class="mobile-cta" onclick="closeMenu()">Get Started</a></li>
+    </ul>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="hero">
@@ -615,6 +702,21 @@ document.querySelectorAll('.reveal').forEach(el=>new IntersectionObserver(([e])=
 
 // ── Card glow ──────────────────────────────────────────────
 function cardGlow(e,card){ const r=card.getBoundingClientRect(); card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%'); card.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%'); }
+
+// ── Mobile menu ─────────────────────────────────────────────
+function toggleMenu() {
+    const btn = document.getElementById('hamburger');
+    const menu = document.getElementById('mobileMenu');
+    const open = btn.classList.toggle('open');
+    menu.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeMenu() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 </script>
 </body>
 </html>
